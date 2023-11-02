@@ -12,6 +12,6 @@ export class Ship {
   }
 
   isSunk() {
-    this.length === this.hits ? (this.sunk = true) : (this.sunk = false);
+    this.length <= this.hits ? (this.sunk = true) : (this.sunk = false);
   }
 }
