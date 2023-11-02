@@ -45,4 +45,28 @@ export class Gameboard {
       );
     }
   }
+
+  placePlayerShip(shipName, x, y) {
+    // Check if coords are free
+    if (
+      (shipName === "Carrier" ||
+        shipName === "Battleship" ||
+        shipName === "Destroyer" ||
+        shipName === "Submarine" ||
+        shipName === "PatrolBoat") &&
+      !this.placedPlayerShips.includes(shipName) &&
+      x > 0 &&
+      x <= 5 &&
+      y > 0 &&
+      y <= 10
+    ) {
+      const ship = this.playerShips.find((ship) => ship.name === shipName);
+      // X && Y are flipped
+      // Change this
+      this.board[x - 1][y - 1] = ship;
+      this.placedPlayerShips.push(ship);
+      // Find way to factor in length of ship
+      ship.coordinates = [x, y];
+    }
+  }
 }
