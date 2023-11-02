@@ -16,4 +16,11 @@ describe("Tests for ship properties", () => {
     destroyer.hit();
     expect(destroyer.sunk).toBeTruthy();
   });
+
+  test("Checks if ship can be realigned", () => {
+    destroyer.realign();
+    expect(destroyer.alignment).toBe("vertical");
+    destroyer.realign();
+    expect(destroyer.alignment).toBe("horizontal");
+  });
 });

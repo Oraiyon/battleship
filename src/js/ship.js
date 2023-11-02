@@ -4,6 +4,7 @@ export class Ship {
     this.length = length;
     this.hits = 0;
     this.sunk = false;
+    this.alignment = "horizontal";
   }
 
   hit() {
@@ -13,5 +14,11 @@ export class Ship {
 
   isSunk() {
     this.length <= this.hits ? (this.sunk = true) : (this.sunk = false);
+  }
+
+  realign() {
+    this.alignment === "horizontal"
+      ? (this.alignment = "vertical")
+      : (this.alignment = "horizontal");
   }
 }
