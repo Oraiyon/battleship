@@ -4,7 +4,8 @@ export class Ship {
     this.length = length;
     this.hits = 0;
     this.sunk = false;
-    this.alignment = "horizontal";
+    this.alignment = "Horizontal";
+    this.coordinates = [];
   }
 
   hit() {
@@ -17,8 +18,8 @@ export class Ship {
   }
 
   realign() {
-    this.alignment === "horizontal"
-      ? (this.alignment = "vertical")
-      : (this.alignment = "horizontal");
+    this.alignment === "Horizontal"
+      ? (this.alignment = "Vertical")
+      : (this.alignment = "Horizontal");
   }
 }
