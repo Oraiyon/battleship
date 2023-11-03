@@ -55,15 +55,14 @@ export class Gameboard {
         shipName === "Submarine" ||
         shipName === "PatrolBoat") &&
       !this.placedPlayerShips.includes(shipName) &&
-      x > 0 &&
-      x <= 5 &&
       y > 0 &&
-      y <= 10
+      y <= 5 &&
+      x > 0 &&
+      x <= 10
     ) {
       const ship = this.playerShips.find((ship) => ship.name === shipName);
-      // X && Y are flipped
-      // Change this
-      this.board[x - 1][y - 1] = ship;
+      // y is first index
+      this.board[y - 1][x - 1] = ship;
       this.placedPlayerShips.push(ship);
       // Find way to factor in length of ship
       ship.coordinates = [x, y];

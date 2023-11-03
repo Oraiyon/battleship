@@ -20,7 +20,7 @@ describe("Tests for Gameboard properties", () => {
   test("Checks if player ships can be placed on gameboard", () => {
     gameBoard.createGameboard();
     gameBoard.placePlayerShip("Destroyer", 3, 2);
-    expect(gameBoard.board[3 - 1][2 - 1].name).toBe("Destroyer");
+    expect(gameBoard.board[2 - 1][3 - 1].name).toBe("Destroyer");
     expect(gameBoard.placedPlayerShips[0].name).toBe("Destroyer");
     expect(gameBoard.placedPlayerShips[0].coordinates).toEqual([3, 2]);
   });
