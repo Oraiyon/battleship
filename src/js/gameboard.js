@@ -63,19 +63,29 @@ export class Gameboard {
         shipName === "Submarine" ||
         shipName === "PatrolBoat") &&
       !this.placedPlayerShips.includes(shipName) &&
-      y > 0 &&
-      y <= 5 &&
       x > 0 &&
-      x <= 10
+      x <= 10 &&
+      y > 0 &&
+      y <= 10
     ) {
       const ship = this.playerShips.find((ship) => ship.name === shipName);
-      // y is first index for this.board
-      this.board[y - 1][x - 1] = ship;
-      // Find way to factor in length of ship
-      ship.coordinates = [x, y];
-      this.placedPlayerShips.push(ship);
-    } else {
-      return null;
+      const mid = Math.floor(ship.length / 2);
+      if (ship.alignment === "Horizontal") {
+        // Fix out of bounds for 0
+        for (let i = x - mid; i <= x + mid; i++) {
+          ship.coordinates.push([i, y]);
+          if (i > 10) {
+            ship.coordinates.map((x) => (x[0] = x[0] - 1));
+            ship.coordinates[ship.coordinates.length - 1][0] = 10;
+          }
+          ship.coordinates.forEach((coord) => {
+            this.board[coord[1] - 1][coord[0] - 1] = ship;
+          });
+        }
+        this.placedPlayerShips.push(ship);
+      } else {
+        return null;
+      }
     }
   }
 }

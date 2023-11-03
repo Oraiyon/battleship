@@ -17,23 +17,23 @@ describe("Tests for Gameboard properties", () => {
     expect(gameBoard.enemyShips.length).toBe(5);
   });
 
-  test("Checks if player ships can be placed on gameboard", () => {
+  test("Checks if player ships can be placed on gameboard without going out of bounds", () => {
     gameBoard.createGameboard();
-    gameBoard.placePlayerShip("Destroyer", 3, 2);
-    expect(gameBoard.board[2 - 1][3 - 1].name).toBe("Destroyer");
-    expect(gameBoard.placedPlayerShips[0].name).toBe("Destroyer");
-    expect(gameBoard.placedPlayerShips[0].coordinates).toEqual([3, 2]);
+    gameBoard.placePlayerShip("Carrier", 10, 2);
+    expect(gameBoard.board[2 - 1][10 - 1].name).toBe("Carrier");
+    expect(gameBoard.placedPlayerShips[0].name).toBe("Carrier");
+    expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([6, 2]);
   });
 
   test("Checks if ship is a duplicate of an already placed ship", () => {
     gameBoard.createGameboard();
-    gameBoard.placePlayerShip("Destroyer", 3, 2);
-    expect(gameBoard.placePlayerShip("Destroyer", 4, 2)).toBeNull();
+    gameBoard.placePlayerShip("Carrier", 3, 2);
+    expect(gameBoard.placePlayerShip("Carrier", 4, 2)).toBeNull();
   });
 
   test("Checks if ship is placed on a used coordinate", () => {
     gameBoard.createGameboard();
-    gameBoard.placePlayerShip("Destroyer", 3, 2);
+    gameBoard.placePlayerShip("Carrier", 3, 2);
     expect(gameBoard.placePlayerShip("Carrier", 3, 2)).toBeNull();
   });
 });
