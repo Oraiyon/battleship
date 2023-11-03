@@ -47,7 +47,15 @@ export class Gameboard {
   }
 
   placePlayerShip(shipName, x, y) {
-    // Check if coords are free
+    if (
+      this.placedPlayerShips.find((ship) => ship.name === shipName) ||
+      this.placedPlayerShips.find(
+        (ship) => ship.coordinates[0] === x && ship.coordinates[1] === y,
+      )
+    ) {
+      return null;
+    }
+
     if (
       (shipName === "Carrier" ||
         shipName === "Battleship" ||
@@ -61,11 +69,13 @@ export class Gameboard {
       x <= 10
     ) {
       const ship = this.playerShips.find((ship) => ship.name === shipName);
-      // y is first index
+      // y is first index for this.board
       this.board[y - 1][x - 1] = ship;
-      this.placedPlayerShips.push(ship);
       // Find way to factor in length of ship
       ship.coordinates = [x, y];
+      this.placedPlayerShips.push(ship);
+    } else {
+      return null;
     }
   }
 }

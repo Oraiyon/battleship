@@ -24,4 +24,16 @@ describe("Tests for Gameboard properties", () => {
     expect(gameBoard.placedPlayerShips[0].name).toBe("Destroyer");
     expect(gameBoard.placedPlayerShips[0].coordinates).toEqual([3, 2]);
   });
+
+  test("Checks if ship is a duplicate of an already placed ship", () => {
+    gameBoard.createGameboard();
+    gameBoard.placePlayerShip("Destroyer", 3, 2);
+    expect(gameBoard.placePlayerShip("Destroyer", 4, 2)).toBeNull();
+  });
+
+  test("Checks if ship is placed on a used coordinate", () => {
+    gameBoard.createGameboard();
+    gameBoard.placePlayerShip("Destroyer", 3, 2);
+    expect(gameBoard.placePlayerShip("Carrier", 3, 2)).toBeNull();
+  });
 });
