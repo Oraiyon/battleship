@@ -46,6 +46,13 @@ export class Gameboard {
     }
   }
 
+  realign(shipName) {
+    const ship = this.playerShips.find((ship) => ship.name === shipName);
+    ship.alignment === "Horizontal"
+      ? (ship.alignment = "Vertical")
+      : (ship.alignment = "Horizontal");
+  }
+
   placePlayerShip(shipName, x, y) {
     const ship = this.playerShips.find((ship) => ship.name === shipName);
     const mid = Math.floor(ship.length / 2);
@@ -87,7 +94,7 @@ export class Gameboard {
           ship.coordinates.map((x) => (x[0] = x[0] - 1));
         }
 
-        while (ship.coordinates[0][0] <= 0) {
+        while (ship.coordinates[0][0] < 1) {
           ship.coordinates.map((x) => (x[0] = x[0] + 1));
         }
 
@@ -97,8 +104,8 @@ export class Gameboard {
 
         this.placedPlayerShips.push(ship);
       }
-    } else {
-      return null;
+    } else if (ship.alignment === "Vertical") {
+      console.log("Hi");
     }
   }
 }

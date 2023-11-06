@@ -16,10 +16,4 @@ export class Ship {
   isSunk() {
     this.length <= this.hits ? (this.sunk = true) : (this.sunk = false);
   }
-
-  realign() {
-    this.alignment === "Horizontal"
-      ? (this.alignment = "Vertical")
-      : (this.alignment = "Horizontal");
-  }
 }

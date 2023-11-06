@@ -17,6 +17,12 @@ describe("Tests for Gameboard properties", () => {
     expect(gameBoard.enemyShips.length).toBe(5);
   });
 
+  test("Checks if ship can be realigned", () => {
+    gameBoard.createGameboard();
+    gameBoard.realign("Carrier");
+    expect(gameBoard.playerShips[0].alignment).toBe("Vertical");
+  });
+
   test("Checks if player ships can be placed on gameboard", () => {
     gameBoard.createGameboard();
     gameBoard.placePlayerShip("Destroyer", 5, 2);
