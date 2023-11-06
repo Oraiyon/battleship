@@ -97,15 +97,24 @@ export class Gameboard {
         while (ship.coordinates[0][0] < 1) {
           ship.coordinates.map((x) => (x[0] = x[0] + 1));
         }
+      } else if (ship.alignment === "Vertical") {
+        for (let i = y - mid; i <= y + mid; i++) {
+          ship.coordinates.push([x, i]);
+        }
 
-        ship.coordinates.forEach((coord) => {
-          this.board[coord[1] - 1][coord[0] - 1] = ship.name;
-        });
+        while (ship.coordinates[ship.coordinates.length - 1][1] > 10) {
+          ship.coordinates.map((y) => (y[1] = y[1] - 1));
+        }
 
-        this.placedPlayerShips.push(ship);
+        while (ship.coordinates[0][1] < 1) {
+          ship.coordinates.map((y) => (y[1] = y[1] + 1));
+        }
       }
-    } else if (ship.alignment === "Vertical") {
-      console.log("Hi");
+
+      this.placedPlayerShips.push(ship);
+      ship.coordinates.forEach((coord) => {
+        this.board[coord[1] - 1][coord[0] - 1] = ship.name;
+      });
     }
   }
 }

@@ -29,7 +29,7 @@ describe("Tests for Gameboard properties", () => {
     expect(gameBoard.board[2 - 1][5 - 1]).toBe("Destroyer");
   });
 
-  test("Checks if player ships' x coordinares DO NOT go past 10", () => {
+  test("Checks if player's horizontal ship's x coordinates DO NOT go past 10", () => {
     gameBoard.createGameboard();
     gameBoard.placePlayerShip("Destroyer", 10, 3);
     expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([8, 3]);
@@ -40,7 +40,7 @@ describe("Tests for Gameboard properties", () => {
     ).toEqual([10, 3]);
   });
 
-  test("Checks if player ships' x coordinates DO NOT go below 0", () => {
+  test("Checks if player's horizontal ship's x coordinates DO NOT go below 0", () => {
     gameBoard.createGameboard();
     gameBoard.placePlayerShip("Carrier", 1, 3);
     expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([1, 3]);
@@ -49,6 +49,30 @@ describe("Tests for Gameboard properties", () => {
         gameBoard.placedPlayerShips[0].coordinates.length - 1
       ],
     ).toEqual([5, 3]);
+  });
+
+  test("Checks if player's vertical ship's y coordinates DO NOT go past 10", () => {
+    gameBoard.createGameboard();
+    gameBoard.realign("Destroyer");
+    gameBoard.placePlayerShip("Destroyer", 3, 10);
+    expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([3, 8]);
+    expect(
+      gameBoard.placedPlayerShips[0].coordinates[
+        gameBoard.placedPlayerShips[0].coordinates.length - 1
+      ],
+    ).toEqual([3, 10]);
+  });
+
+  test("Checks if player's vertical ship's y coordinates DO NOT go below 0", () => {
+    gameBoard.createGameboard();
+    gameBoard.realign("Destroyer");
+    gameBoard.placePlayerShip("Destroyer", 3, 1);
+    expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([3, 1]);
+    expect(
+      gameBoard.placedPlayerShips[0].coordinates[
+        gameBoard.placedPlayerShips[0].coordinates.length - 1
+      ],
+    ).toEqual([3, 3]);
   });
 
   test("Checks if ship is a duplicate of an already placed ship", () => {
