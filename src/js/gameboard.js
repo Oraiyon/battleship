@@ -79,21 +79,26 @@ export class Gameboard {
       y <= 10
     ) {
       if (ship.alignment === "Horizontal") {
-        // Fix out of bounds for 0
         for (let i = x - mid; i <= x + mid; i++) {
           ship.coordinates.push([i, y]);
-          if (i > 10) {
-            ship.coordinates.map((x) => (x[0] = x[0] - 1));
-            ship.coordinates[ship.coordinates.length - 1][0] = 10;
-          }
-          ship.coordinates.forEach((coord) => {
-            this.board[coord[1] - 1][coord[0] - 1] = ship.name;
-          });
         }
+
+        while (ship.coordinates[ship.coordinates.length - 1][0] > 10) {
+          ship.coordinates.map((x) => (x[0] = x[0] - 1));
+        }
+
+        while (ship.coordinates[0][0] <= 0) {
+          ship.coordinates.map((x) => (x[0] = x[0] + 1));
+        }
+
+        ship.coordinates.forEach((coord) => {
+          this.board[coord[1] - 1][coord[0] - 1] = ship.name;
+        });
+
         this.placedPlayerShips.push(ship);
-      } else {
-        return null;
       }
+    } else {
+      return null;
     }
   }
 }

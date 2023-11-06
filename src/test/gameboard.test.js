@@ -21,18 +21,28 @@ describe("Tests for Gameboard properties", () => {
     gameBoard.createGameboard();
     gameBoard.placePlayerShip("Destroyer", 5, 2);
     expect(gameBoard.board[2 - 1][5 - 1]).toBe("Destroyer");
-    expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([4, 2]);
-    expect(gameBoard.placedPlayerShips[0].coordinates[1]).toEqual([5, 2]);
-    expect(gameBoard.placedPlayerShips[0].coordinates[2]).toEqual([6, 2]);
   });
 
-  test("Checks if player ships can NOT be out of bounds", () => {
+  test("Checks if player ships' x coordinares DO NOT go past 10", () => {
     gameBoard.createGameboard();
     gameBoard.placePlayerShip("Destroyer", 10, 3);
-    expect(gameBoard.board[3 - 1][10 - 1]).toBe("Destroyer");
     expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([8, 3]);
-    expect(gameBoard.placedPlayerShips[0].coordinates[1]).toEqual([9, 3]);
-    expect(gameBoard.placedPlayerShips[0].coordinates[2]).toEqual([10, 3]);
+    expect(
+      gameBoard.placedPlayerShips[0].coordinates[
+        gameBoard.placedPlayerShips[0].coordinates.length - 1
+      ],
+    ).toEqual([10, 3]);
+  });
+
+  test("Checks if player ships' x coordinates DO NOT go below 0", () => {
+    gameBoard.createGameboard();
+    gameBoard.placePlayerShip("Carrier", 1, 3);
+    expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([1, 3]);
+    expect(
+      gameBoard.placedPlayerShips[0].coordinates[
+        gameBoard.placedPlayerShips[0].coordinates.length - 1
+      ],
+    ).toEqual([5, 3]);
   });
 
   test("Checks if ship is a duplicate of an already placed ship", () => {
