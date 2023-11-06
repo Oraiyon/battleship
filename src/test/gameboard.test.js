@@ -17,23 +17,36 @@ describe("Tests for Gameboard properties", () => {
     expect(gameBoard.enemyShips.length).toBe(5);
   });
 
-  test("Checks if player ships can be placed on gameboard without going out of bounds", () => {
+  test("Checks if player ships can be placed on gameboard", () => {
     gameBoard.createGameboard();
-    gameBoard.placePlayerShip("Carrier", 10, 2);
-    expect(gameBoard.board[2 - 1][10 - 1].name).toBe("Carrier");
-    expect(gameBoard.placedPlayerShips[0].name).toBe("Carrier");
-    expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([6, 2]);
+    gameBoard.placePlayerShip("Destroyer", 5, 2);
+    expect(gameBoard.board[2 - 1][5 - 1]).toBe("Destroyer");
+    expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([4, 2]);
+    expect(gameBoard.placedPlayerShips[0].coordinates[1]).toEqual([5, 2]);
+    expect(gameBoard.placedPlayerShips[0].coordinates[2]).toEqual([6, 2]);
+  });
+
+  test("Checks if player ships can NOT be out of bounds", () => {
+    gameBoard.createGameboard();
+    gameBoard.placePlayerShip("Destroyer", 10, 3);
+    expect(gameBoard.board[3 - 1][10 - 1]).toBe("Destroyer");
+    expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([8, 3]);
+    expect(gameBoard.placedPlayerShips[0].coordinates[1]).toEqual([9, 3]);
+    expect(gameBoard.placedPlayerShips[0].coordinates[2]).toEqual([10, 3]);
   });
 
   test("Checks if ship is a duplicate of an already placed ship", () => {
     gameBoard.createGameboard();
-    gameBoard.placePlayerShip("Carrier", 3, 2);
-    expect(gameBoard.placePlayerShip("Carrier", 4, 2)).toBeNull();
+    gameBoard.placePlayerShip("Destroyer", 3, 2);
+    expect(gameBoard.placePlayerShip("Destroyer", 4, 2)).toBeNull();
   });
 
   test("Checks if ship is placed on a used coordinate", () => {
     gameBoard.createGameboard();
-    gameBoard.placePlayerShip("Carrier", 3, 2);
-    expect(gameBoard.placePlayerShip("Carrier", 3, 2)).toBeNull();
+    gameBoard.placePlayerShip("Destroyer", 3, 2);
+    expect(gameBoard.placePlayerShip("Submarine", 3, 2)).toBeNull();
+    expect(gameBoard.placePlayerShip("Submarine", 5, 2)).toBeNull();
+    // Destroyer's coordinates are [2, 2], [3, 2], [4, 2]
+    // Submairine[5, 2]'s coordinates would start with [4, 2] causing a conflict which is why it's null
   });
 });
