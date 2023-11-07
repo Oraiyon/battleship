@@ -107,7 +107,23 @@ export class Gameboard {
         while (ship.coordinates[0][0] < 1) {
           ship.coordinates.map((x) => (x[0] = x[0] + 1));
         }
-        // ships can still be on used coords if +/- mid is same as new -/+ mid
+
+        for (let i = 0; i < this.placedPlayerShips.length; i++) {
+          for (
+            let z = 0;
+            z < this.placedPlayerShips[i].coordinates.length;
+            z++
+          ) {
+            if (
+              ship.coordinates[0][0] ===
+                this.placedPlayerShips[i].coordinates[z][0] ||
+              ship.coordinates[ship.coordinates.length - 1][0] ===
+                this.placedPlayerShips[i].coordinates[z][0]
+            ) {
+              return null;
+            }
+          }
+        }
       } else if (ship.alignment === "Vertical") {
         for (let i = y - mid; i <= y + mid; i++) {
           ship.coordinates.push([x, i]);
@@ -120,9 +136,13 @@ export class Gameboard {
         while (ship.coordinates[0][1] < 1) {
           ship.coordinates.map((y) => (y[1] = y[1] + 1));
         }
+
+        // FOR VERTICAL
+        // ships can still be on used coords if +/- mid is same as new -/+ mid
       }
 
       this.placedPlayerShips.push(ship);
+
       ship.coordinates.forEach((coord) => {
         this.board[coord[1] - 1][coord[0] - 1] = ship.name;
       });

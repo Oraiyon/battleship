@@ -94,4 +94,16 @@ describe("Tests for Gameboard properties", () => {
     gameBoard.realign("Carrier");
     expect(gameBoard.placePlayerShip("Carrier", 6, 5)).toBeNull();
   });
+
+  test("Checks if ship can NOT be placed on the x axis if there is no space for it (1)", () => {
+    gameBoard.createGameboard();
+    gameBoard.placePlayerShip("Destroyer", 5, 3);
+    expect(gameBoard.placePlayerShip("Carrier", 1, 3)).toBeNull();
+  });
+
+  test("Checks if ship can NOT be placed on the x axis if there is no space for it (2)", () => {
+    gameBoard.createGameboard();
+    gameBoard.placePlayerShip("Destroyer", 5, 3);
+    expect(gameBoard.placePlayerShip("Carrier", 10, 3)).toBeNull();
+  });
 });
