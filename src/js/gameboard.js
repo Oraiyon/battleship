@@ -63,9 +63,19 @@ export class Gameboard {
 
     if (ship.alignment === "Horizontal") {
       if (
-        this.placedPlayerShips.find((ship) =>
-          ship.coordinates.find(
+        this.placedPlayerShips.find((ships) =>
+          ships.coordinates.find(
             (coords) => coords[0] === x + mid || coords[0] === x - mid,
+          ),
+        )
+      ) {
+        return null;
+      }
+    } else if (ship.alignment === "Vertical") {
+      if (
+        this.placedPlayerShips.find((ships) =>
+          ships.coordinates.find(
+            (coords) => coords[1] === y + mid || coords[1] === y - mid,
           ),
         )
       ) {
@@ -97,6 +107,7 @@ export class Gameboard {
         while (ship.coordinates[0][0] < 1) {
           ship.coordinates.map((x) => (x[0] = x[0] + 1));
         }
+        // ships can still be on used coords if +/- mid is same as new -/+ mid
       } else if (ship.alignment === "Vertical") {
         for (let i = y - mid; i <= y + mid; i++) {
           ship.coordinates.push([x, i]);

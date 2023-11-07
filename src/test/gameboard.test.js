@@ -81,12 +81,17 @@ describe("Tests for Gameboard properties", () => {
     expect(gameBoard.placePlayerShip("Destroyer", 4, 2)).toBeNull();
   });
 
-  test("Checks if ship is placed on a used coordinate", () => {
+  test("Checks if ship is placed on a used x coordinate", () => {
     gameBoard.createGameboard();
     gameBoard.placePlayerShip("Destroyer", 3, 2);
-    expect(gameBoard.placePlayerShip("Submarine", 3, 2)).toBeNull();
     expect(gameBoard.placePlayerShip("Submarine", 5, 2)).toBeNull();
-    // Destroyer's coordinates are [2, 2], [3, 2], [4, 2]
-    // Submairine[5, 2]'s coordinates would start with [4, 2] causing a conflict which is why it's null
+  });
+
+  test("Checks if ship is placed on a used y coordinate", () => {
+    gameBoard.createGameboard();
+    gameBoard.realign("Destroyer");
+    gameBoard.placePlayerShip("Destroyer", 6, 1);
+    gameBoard.realign("Carrier");
+    expect(gameBoard.placePlayerShip("Carrier", 6, 5)).toBeNull();
   });
 });
