@@ -61,6 +61,10 @@ export class Gameboard {
       return null;
     }
 
+    // NEEDS TO BE REFACTORED
+    // STOPS OTHER SHIPS FROM BEING PLACED ON ADJACENT OPPOSITE AXIS
+    // board.placePlayerShip("Destroyer", 5, 1);
+    // board.placePlayerShip("Carrier", 4, 2);
     if (ship.alignment === "Horizontal") {
       if (
         this.placedPlayerShips.find((ships) =>
@@ -69,6 +73,7 @@ export class Gameboard {
           ),
         )
       ) {
+        console.log("Hi");
         return null;
       }
     } else if (ship.alignment === "Vertical") {
@@ -79,6 +84,7 @@ export class Gameboard {
           ),
         )
       ) {
+        console.log("Hi");
         return null;
       }
     }
