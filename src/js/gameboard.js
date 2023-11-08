@@ -61,34 +61,6 @@ export class Gameboard {
       return null;
     }
 
-    // NEEDS TO BE REFACTORED
-    // STOPS OTHER SHIPS FROM BEING PLACED ON ADJACENT OPPOSITE AXIS
-    // board.placePlayerShip("Destroyer", 5, 1);
-    // board.placePlayerShip("Carrier", 4, 2);
-    if (ship.alignment === "Horizontal") {
-      if (
-        this.placedPlayerShips.find((ships) =>
-          ships.coordinates.find(
-            (coords) => coords[0] === x + mid || coords[0] === x - mid,
-          ),
-        )
-      ) {
-        console.log("Hi");
-        return null;
-      }
-    } else if (ship.alignment === "Vertical") {
-      if (
-        this.placedPlayerShips.find((ships) =>
-          ships.coordinates.find(
-            (coords) => coords[1] === y + mid || coords[1] === y - mid,
-          ),
-        )
-      ) {
-        console.log("Hi");
-        return null;
-      }
-    }
-
     if (
       (shipName === "Carrier" ||
         shipName === "Battleship" ||
@@ -113,23 +85,6 @@ export class Gameboard {
         while (ship.coordinates[0][0] < 1) {
           ship.coordinates.map((x) => (x[0] = x[0] + 1));
         }
-
-        for (let i = 0; i < this.placedPlayerShips.length; i++) {
-          for (
-            let z = 0;
-            z < this.placedPlayerShips[i].coordinates.length;
-            z++
-          ) {
-            if (
-              ship.coordinates[0][0] ===
-                this.placedPlayerShips[i].coordinates[z][0] ||
-              ship.coordinates[ship.coordinates.length - 1][0] ===
-                this.placedPlayerShips[i].coordinates[z][0]
-            ) {
-              return null;
-            }
-          }
-        }
       } else if (ship.alignment === "Vertical") {
         for (let i = y - mid; i <= y + mid; i++) {
           ship.coordinates.push([x, i]);
@@ -142,9 +97,23 @@ export class Gameboard {
         while (ship.coordinates[0][1] < 1) {
           ship.coordinates.map((y) => (y[1] = y[1] + 1));
         }
+      }
 
-        // FOR VERTICAL
-        // ships can still be on used coords if +/- mid is same as new -/+ mid
+      for (let i = 0; i < this.placedPlayerShips.length; i++) {
+        for (let z = 0; z < this.placedPlayerShips[i].coordinates.length; z++) {
+          if (
+            (ship.coordinates[0][0] ===
+              this.placedPlayerShips[i].coordinates[z][0] &&
+              ship.coordinates[0][1] ===
+                this.placedPlayerShips[i].coordinates[z][1]) ||
+            (ship.coordinates[ship.coordinates.length - 1][0] ===
+              this.placedPlayerShips[i].coordinates[z][0] &&
+              ship.coordinates[ship.coordinates.length - 1][1] ===
+                this.placedPlayerShips[i].coordinates[z][1])
+          ) {
+            return null;
+          }
+        }
       }
 
       this.placedPlayerShips.push(ship);
