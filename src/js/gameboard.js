@@ -106,6 +106,10 @@ export class Gameboard {
               this.placedPlayerShips[i].coordinates[z][0] &&
               ship.coordinates[0][1] ===
                 this.placedPlayerShips[i].coordinates[z][1]) ||
+            (ship.coordinates[mid][0] ===
+              this.placedPlayerShips[i].coordinates[z][0] &&
+              ship.coordinates[mid][1] ===
+                this.placedPlayerShips[i].coordinates[z][1]) ||
             (ship.coordinates[ship.coordinates.length - 1][0] ===
               this.placedPlayerShips[i].coordinates[z][0] &&
               ship.coordinates[ship.coordinates.length - 1][1] ===
