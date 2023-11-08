@@ -67,7 +67,6 @@ export class Gameboard {
         shipName === "Destroyer" ||
         shipName === "Submarine" ||
         shipName === "PatrolBoat") &&
-      !this.placedPlayerShips.includes(shipName) &&
       x > 0 &&
       x <= 10 &&
       y > 0 &&
