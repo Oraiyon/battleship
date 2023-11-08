@@ -106,4 +106,30 @@ describe("Tests for Gameboard properties", () => {
     gameBoard.placePlayerShip("Destroyer", 5, 3);
     expect(gameBoard.placePlayerShip("Carrier", 10, 3)).toBeNull();
   });
+
+  test("Checks if ship.coordinates.length === ship.length", () => {
+    gameBoard.createGameboard();
+    gameBoard.placePlayerShip("PatrolBoat", 5, 3);
+    expect(gameBoard.placedPlayerShips[0].coordinates.length).toEqual(
+      gameBoard.placedPlayerShips[0].length,
+    );
+  });
+
+  test("Checks if HORIZONTAL PatrolBoat && Battleship can be placed at the edge of board", () => {
+    gameBoard.createGameboard();
+    gameBoard.placePlayerShip("PatrolBoat", 10, 10);
+    expect(gameBoard.placedPlayerShips[0].coordinates[1]).toEqual([10, 10]);
+    gameBoard.placePlayerShip("Battleship", 1, 1);
+    expect(gameBoard.placedPlayerShips[1].coordinates[0]).toEqual([1, 1]);
+  });
+
+  test("Checks if VERTICAL PatrolBoat && Battleship can be placed at the edge of board", () => {
+    gameBoard.createGameboard();
+    gameBoard.realign("PatrolBoat");
+    gameBoard.placePlayerShip("PatrolBoat", 10, 10);
+    expect(gameBoard.placedPlayerShips[0].coordinates[1]).toEqual([10, 10]);
+    gameBoard.realign("Battleship");
+    gameBoard.placePlayerShip("Battleship", 1, 1);
+    expect(gameBoard.placedPlayerShips[1].coordinates[0]).toEqual([1, 1]);
+  });
 });
