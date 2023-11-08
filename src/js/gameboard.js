@@ -120,6 +120,10 @@ export class Gameboard {
         }
       }
 
+      if (ship.coordinates.length > ship.length) {
+        ship.coordinates.shift();
+      }
+
       this.placedPlayerShips.push(ship);
 
       ship.coordinates.forEach((coord) => {
