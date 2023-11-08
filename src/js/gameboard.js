@@ -120,8 +120,25 @@ export class Gameboard {
         }
       }
 
-      if (ship.coordinates.length > ship.length) {
+      if (
+        (ship.coordinates.length > ship.length &&
+          ship.alignment === "Horizontal" &&
+          x === 10) ||
+        (ship.coordinates.length > ship.length &&
+          ship.alignment === "Vertical" &&
+          y === 10)
+      ) {
         ship.coordinates.shift();
+      } else if (
+        (ship.coordinates.length > ship.length &&
+          ship.alignment === "Horizontal" &&
+          x === 1) ||
+        (ship.coordinates.length > ship.length &&
+          ship.alignment === "Vertical" &&
+          y === 1) ||
+        ship.coordinates.length > ship.length
+      ) {
+        ship.coordinates.pop();
       }
 
       this.placedPlayerShips.push(ship);
