@@ -8,7 +8,7 @@ describe("Tests for Gameboard properties", () => {
   });
 
   test("Checks if gameboard is created", () => {
-    expect(gameBoard.playerBoard.length).toBe(10);
+    expect(gameBoard.board.length).toBe(10);
   });
 
   test("Checks if ships are created for player", () => {
@@ -22,7 +22,7 @@ describe("Tests for Gameboard properties", () => {
 
   test("Checks if player ships can be placed on gameboard", () => {
     gameBoard.placePlayerShip("Destroyer", 5, 2);
-    expect(gameBoard.playerBoard[2 - 1][5 - 1]).toBe("Destroyer");
+    expect(gameBoard.board[2 - 1][5 - 1]).toBe("Destroyer");
   });
 
   test("Checks if player ships can ONLY be placed within bounds", () => {
@@ -32,20 +32,20 @@ describe("Tests for Gameboard properties", () => {
 
   test("Checks if player's horizontal ship's x coordinates DO NOT go past 10", () => {
     gameBoard.placePlayerShip("Destroyer", 10, 3);
-    expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([8, 3]);
+    expect(gameBoard.placedShips[0].coordinates[0]).toEqual([8, 3]);
     expect(
-      gameBoard.placedPlayerShips[0].coordinates[
-        gameBoard.placedPlayerShips[0].coordinates.length - 1
+      gameBoard.placedShips[0].coordinates[
+        gameBoard.placedShips[0].coordinates.length - 1
       ],
     ).toEqual([10, 3]);
   });
 
   test("Checks if player's horizontal ship's x coordinates DO NOT go below 0", () => {
     gameBoard.placePlayerShip("Carrier", 1, 3);
-    expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([1, 3]);
+    expect(gameBoard.placedShips[0].coordinates[0]).toEqual([1, 3]);
     expect(
-      gameBoard.placedPlayerShips[0].coordinates[
-        gameBoard.placedPlayerShips[0].coordinates.length - 1
+      gameBoard.placedShips[0].coordinates[
+        gameBoard.placedShips[0].coordinates.length - 1
       ],
     ).toEqual([5, 3]);
   });
@@ -53,10 +53,10 @@ describe("Tests for Gameboard properties", () => {
   test("Checks if player's vertical ship's y coordinates DO NOT go past 10", () => {
     gameBoard.realign("Destroyer");
     gameBoard.placePlayerShip("Destroyer", 3, 10);
-    expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([3, 8]);
+    expect(gameBoard.placedShips[0].coordinates[0]).toEqual([3, 8]);
     expect(
-      gameBoard.placedPlayerShips[0].coordinates[
-        gameBoard.placedPlayerShips[0].coordinates.length - 1
+      gameBoard.placedShips[0].coordinates[
+        gameBoard.placedShips[0].coordinates.length - 1
       ],
     ).toEqual([3, 10]);
   });
@@ -64,10 +64,10 @@ describe("Tests for Gameboard properties", () => {
   test("Checks if player's vertical ship's y coordinates DO NOT go below 0", () => {
     gameBoard.realign("Destroyer");
     gameBoard.placePlayerShip("Destroyer", 3, 1);
-    expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([3, 1]);
+    expect(gameBoard.placedShips[0].coordinates[0]).toEqual([3, 1]);
     expect(
-      gameBoard.placedPlayerShips[0].coordinates[
-        gameBoard.placedPlayerShips[0].coordinates.length - 1
+      gameBoard.placedShips[0].coordinates[
+        gameBoard.placedShips[0].coordinates.length - 1
       ],
     ).toEqual([3, 3]);
   });
@@ -101,25 +101,25 @@ describe("Tests for Gameboard properties", () => {
 
   test("Checks if ship.coordinates.length === ship.length", () => {
     gameBoard.placePlayerShip("PatrolBoat", 5, 3);
-    expect(gameBoard.placedPlayerShips[0].coordinates.length).toEqual(
-      gameBoard.placedPlayerShips[0].length,
+    expect(gameBoard.placedShips[0].coordinates.length).toEqual(
+      gameBoard.placedShips[0].length,
     );
   });
 
   test("Checks if HORIZONTAL PatrolBoat && Battleship can be placed at the edge of board", () => {
     gameBoard.placePlayerShip("PatrolBoat", 10, 10);
-    expect(gameBoard.placedPlayerShips[0].coordinates[1]).toEqual([10, 10]);
+    expect(gameBoard.placedShips[0].coordinates[1]).toEqual([10, 10]);
     gameBoard.placePlayerShip("Battleship", 1, 1);
-    expect(gameBoard.placedPlayerShips[1].coordinates[0]).toEqual([1, 1]);
+    expect(gameBoard.placedShips[1].coordinates[0]).toEqual([1, 1]);
   });
 
   test("Checks if VERTICAL PatrolBoat && Battleship can be placed at the edge of board", () => {
     gameBoard.realign("PatrolBoat");
     gameBoard.placePlayerShip("PatrolBoat", 10, 10);
-    expect(gameBoard.placedPlayerShips[0].coordinates[1]).toEqual([10, 10]);
+    expect(gameBoard.placedShips[0].coordinates[1]).toEqual([10, 10]);
     gameBoard.realign("Battleship");
     gameBoard.placePlayerShip("Battleship", 1, 1);
-    expect(gameBoard.placedPlayerShips[1].coordinates[0]).toEqual([1, 1]);
+    expect(gameBoard.placedShips[1].coordinates[0]).toEqual([1, 1]);
   });
 
   test("Checks that attack() ONLY triggers when ALL ships have been placed", () => {
@@ -138,8 +138,8 @@ describe("Tests for Gameboard properties", () => {
     gameBoard.placePlayerShip("Battleship", 3, 8);
     gameBoard.placePlayerShip("Submarine", 9, 6);
     gameBoard.attack(1, 1);
-    expect(gameBoard.placedPlayerShips[0].hits).toBe(1);
-    expect(gameBoard.playerHitShots[0]).toEqual([1, 1]);
+    expect(gameBoard.placedShips[0].hits).toBe(1);
+    expect(gameBoard.hitShots[0]).toEqual([1, 1]);
   });
 
   test("Checks that when attack() MISSES a ship, playerMissedShots records missed coordinates", () => {
@@ -149,7 +149,7 @@ describe("Tests for Gameboard properties", () => {
     gameBoard.placePlayerShip("Battleship", 3, 8);
     gameBoard.placePlayerShip("Submarine", 9, 6);
     gameBoard.attack(10, 10);
-    expect(gameBoard.playerMissedShots[0]).toEqual([10, 10]);
+    expect(gameBoard.missedShots[0]).toEqual([10, 10]);
   });
 
   test("Checks that attack() DOES NOT trigger on used coordinates", () => {
@@ -173,7 +173,7 @@ describe("Tests for Gameboard properties", () => {
     gameBoard.attack(1, 1);
     gameBoard.attack(2, 1);
     gameBoard.attack(3, 1);
-    expect(gameBoard.placedPlayerShips[0].sunk).toBeTruthy();
+    expect(gameBoard.placedShips[0].sunk).toBeTruthy();
   });
 
   test("Checks if sunken ships are recorded", () => {
@@ -185,6 +185,6 @@ describe("Tests for Gameboard properties", () => {
     gameBoard.attack(1, 1);
     gameBoard.attack(2, 1);
     gameBoard.attack(3, 1);
-    expect(gameBoard.playerSunkenShips.length).toBe(1);
+    expect(gameBoard.sunkenShips.length).toBe(1);
   });
 });

@@ -2,18 +2,18 @@ import { Ship } from "./ship";
 
 export class Gameboard {
   constructor() {
-    this.playerBoard = [];
+    this.board = [];
     this.playerShips = [];
-    this.placedPlayerShips = [];
-    this.playerHitShots = [];
-    this.playerMissedShots = [];
-    this.playerSunkenShips = [];
+    this.placedShips = [];
+    this.hitShots = [];
+    this.missedShots = [];
+    this.sunkenShips = [];
   }
 
   createGameboard() {
-    if (this.playerBoard.length === 0) {
+    if (this.board.length === 0) {
       for (let i = 0; i < 10; i++) {
-        this.playerBoard.push(["", "", "", "", "", "", "", "", "", ""]);
+        this.board.push(["", "", "", "", "", "", "", "", "", ""]);
       }
       this.createShips();
     }
@@ -47,7 +47,7 @@ export class Gameboard {
     const ship = this.playerShips.find((ship) => ship.name === shipName);
     const mid = Math.floor(ship.length / 2);
 
-    if (this.placedPlayerShips.find((ship) => ship.name === shipName)) {
+    if (this.placedShips.find((ship) => ship.name === shipName)) {
       return null;
     }
 
@@ -88,21 +88,20 @@ export class Gameboard {
         }
       }
 
-      for (let i = 0; i < this.placedPlayerShips.length; i++) {
-        for (let z = 0; z < this.placedPlayerShips[i].coordinates.length; z++) {
+      for (let i = 0; i < this.placedShips.length; i++) {
+        for (let z = 0; z < this.placedShips[i].coordinates.length; z++) {
           if (
-            (ship.coordinates[0][0] ===
-              this.placedPlayerShips[i].coordinates[z][0] &&
+            (ship.coordinates[0][0] === this.placedShips[i].coordinates[z][0] &&
               ship.coordinates[0][1] ===
-                this.placedPlayerShips[i].coordinates[z][1]) ||
+                this.placedShips[i].coordinates[z][1]) ||
             (ship.coordinates[mid][0] ===
-              this.placedPlayerShips[i].coordinates[z][0] &&
+              this.placedShips[i].coordinates[z][0] &&
               ship.coordinates[mid][1] ===
-                this.placedPlayerShips[i].coordinates[z][1]) ||
+                this.placedShips[i].coordinates[z][1]) ||
             (ship.coordinates[ship.coordinates.length - 1][0] ===
-              this.placedPlayerShips[i].coordinates[z][0] &&
+              this.placedShips[i].coordinates[z][0] &&
               ship.coordinates[ship.coordinates.length - 1][1] ===
-                this.placedPlayerShips[i].coordinates[z][1])
+                this.placedShips[i].coordinates[z][1])
           ) {
             return null;
           }
@@ -130,10 +129,10 @@ export class Gameboard {
         ship.coordinates.shift();
       }
 
-      this.placedPlayerShips.push(ship);
+      this.placedShips.push(ship);
 
       ship.coordinates.forEach((coord) => {
-        this.playerBoard[coord[1] - 1][coord[0] - 1] = ship.name;
+        this.board[coord[1] - 1][coord[0] - 1] = ship.name;
       });
     } else {
       return null;
@@ -142,43 +141,44 @@ export class Gameboard {
 
   attack(x, y) {
     if (
-      this.placedPlayerShips.length !== 5 ||
+      this.placedShips.length !== 5 ||
       x < 0 ||
       x > 10 ||
       y < 0 ||
       y > 10 ||
-      this.playerMissedShots.some(
+      this.missedShots.some(
         (coordinates) => coordinates[0] === x && coordinates[1] === y,
       ) ||
-      this.playerHitShots.some(
+      this.hitShots.some(
         (coordinates) => coordinates[0] === x && coordinates[1] === y,
       )
     ) {
       return null;
     }
 
-    for (let i = 0; i < this.placedPlayerShips.length; i++) {
-      for (let z = 0; z < this.placedPlayerShips[i].coordinates.length; z++) {
+    for (let i = 0; i < this.placedShips.length; i++) {
+      for (let z = 0; z < this.placedShips[i].coordinates.length; z++) {
         if (
-          this.placedPlayerShips[i].coordinates[z][0] === x &&
-          this.placedPlayerShips[i].coordinates[z][1] === y
+          this.placedShips[i].coordinates[z][0] === x &&
+          this.placedShips[i].coordinates[z][1] === y
         ) {
-          this.placedPlayerShips[i].hit();
-          if (this.placedPlayerShips[i].sunk === true) {
-            this.playerSunkenShips.push(this.placedPlayerShips[i]);
+          this.placedShips[i].hit();
+          if (this.placedShips[i].sunk === true) {
+            this.sunkenShips.push(this.placedShips[i]);
           }
+          this.hitShots.push([x, y]);
           this.checkWinner();
-          this.playerHitShots.push([x, y]);
           return;
         }
       }
     }
 
-    this.playerMissedShots.push([x, y]);
+    this.missedShots.push([x, y]);
   }
 
+  // Refactor using this.winner === false to true?
   checkWinner() {
-    if (this.playerSunkenShips.length === 5) {
+    if (this.sunkenShips.length === 5) {
       return true;
     }
   }
