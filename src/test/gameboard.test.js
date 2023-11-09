@@ -7,14 +7,12 @@ describe("Tests for Gameboard properties", () => {
     gameBoard.createGameboard();
   });
 
-  test("Checks if gameboards is created", () => {
+  test("Checks if gameboard is created", () => {
     expect(gameBoard.playerBoard.length).toBe(10);
-    expect(gameBoard.enemyBoard.length).toBe(10);
   });
 
   test("Checks if ships are created for player", () => {
     expect(gameBoard.playerShips.length).toBe(5);
-    expect(gameBoard.enemyShips.length).toBe(5);
   });
 
   test("Checks if ship can be realigned", () => {

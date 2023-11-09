@@ -3,9 +3,7 @@ import { Ship } from "./ship";
 export class Gameboard {
   constructor() {
     this.playerBoard = [];
-    this.enemyBoard = [];
     this.playerShips = [];
-    this.enemyShips = [];
     this.placedPlayerShips = [];
     this.playerHitShots = [];
     this.playerMissedShots = [];
@@ -16,27 +14,19 @@ export class Gameboard {
     if (this.playerBoard.length === 0) {
       for (let i = 0; i < 10; i++) {
         this.playerBoard.push(["", "", "", "", "", "", "", "", "", ""]);
-        this.enemyBoard.push(["", "", "", "", "", "", "", "", "", ""]);
       }
       this.createShips();
     }
   }
 
   createShips() {
-    if (this.playerShips.length === 0 && this.enemyShips.length === 0) {
+    if (this.playerShips.length === 0) {
       const carrier = new Ship("Carrier", 5);
       const battleship = new Ship("Battleship", 4);
       const destroyer = new Ship("Destroyer", 3);
       const submarine = new Ship("Submarine", 3);
       const patrolBoat = new Ship("PatrolBoat", 2);
       this.playerShips.push(
-        carrier,
-        battleship,
-        destroyer,
-        submarine,
-        patrolBoat,
-      );
-      this.enemyShips.push(
         carrier,
         battleship,
         destroyer,
@@ -167,7 +157,6 @@ export class Gameboard {
       return null;
     }
 
-    // REPLACE placedPlayerShips with placedEnemyShips when targeting enemy
     for (let i = 0; i < this.placedPlayerShips.length; i++) {
       for (let z = 0; z < this.placedPlayerShips[i].coordinates.length; z++) {
         if (
@@ -178,6 +167,7 @@ export class Gameboard {
           if (this.placedPlayerShips[i].sunk === true) {
             this.playerSunkenShips.push(this.placedPlayerShips[i]);
           }
+          this.checkWinner();
           this.playerHitShots.push([x, y]);
           return;
         }
@@ -186,4 +176,13 @@ export class Gameboard {
 
     this.playerMissedShots.push([x, y]);
   }
+
+  checkWinner() {
+    if (this.playerSunkenShips.length === 5) {
+      return true;
+    }
+  }
 }
+
+// Games will be played with 2 boards
+// Player will access enemy board to attack
