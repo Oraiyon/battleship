@@ -7,8 +7,9 @@ describe("Tests for Gameboard properties", () => {
     gameBoard.createGameboard();
   });
 
-  test("Checks if Gameboard is created only once", () => {
-    expect(gameBoard.board.length).toBe(10);
+  test("Checks if gameboards is created", () => {
+    expect(gameBoard.playerBoard.length).toBe(10);
+    expect(gameBoard.enemyBoard.length).toBe(10);
   });
 
   test("Checks if ships are created for player", () => {
@@ -23,7 +24,7 @@ describe("Tests for Gameboard properties", () => {
 
   test("Checks if player ships can be placed on gameboard", () => {
     gameBoard.placePlayerShip("Destroyer", 5, 2);
-    expect(gameBoard.board[2 - 1][5 - 1]).toBe("Destroyer");
+    expect(gameBoard.playerBoard[2 - 1][5 - 1]).toBe("Destroyer");
   });
 
   test("Checks if player ships can ONLY be placed within bounds", () => {

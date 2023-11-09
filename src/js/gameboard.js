@@ -2,7 +2,8 @@ import { Ship } from "./ship";
 
 export class Gameboard {
   constructor() {
-    this.board = [];
+    this.playerBoard = [];
+    this.enemyBoard = [];
     this.playerShips = [];
     this.enemyShips = [];
     this.placedPlayerShips = [];
@@ -12,9 +13,10 @@ export class Gameboard {
   }
 
   createGameboard() {
-    if (this.board.length === 0) {
+    if (this.playerBoard.length === 0) {
       for (let i = 0; i < 10; i++) {
-        this.board.push(["", "", "", "", "", "", "", "", "", ""]);
+        this.playerBoard.push(["", "", "", "", "", "", "", "", "", ""]);
+        this.enemyBoard.push(["", "", "", "", "", "", "", "", "", ""]);
       }
       this.createShips();
     }
@@ -141,7 +143,7 @@ export class Gameboard {
       this.placedPlayerShips.push(ship);
 
       ship.coordinates.forEach((coord) => {
-        this.board[coord[1] - 1][coord[0] - 1] = ship.name;
+        this.playerBoard[coord[1] - 1][coord[0] - 1] = ship.name;
       });
     } else {
       return null;
@@ -165,6 +167,7 @@ export class Gameboard {
       return null;
     }
 
+    // REPLACE placedPlayerShips with placedEnemyShips when targeting enemy
     for (let i = 0; i < this.placedPlayerShips.length; i++) {
       for (let z = 0; z < this.placedPlayerShips[i].coordinates.length; z++) {
         if (
