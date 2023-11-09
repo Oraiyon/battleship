@@ -3,14 +3,11 @@ import { Ship } from "./ship";
 export class Gameboard {
   constructor() {
     this.board = [];
-    this.allShots = [];
-    this.hitShots = [];
-    this.missedShots = [];
     this.playerShips = [];
     this.enemyShips = [];
     this.placedPlayerShips = [];
-    this.sunkenPlayerShips = [];
-    this.sunkenEnemyShips = [];
+    this.playerHitShots = [];
+    this.playerMissedShots = [];
   }
 
   createGameboard() {
@@ -156,9 +153,30 @@ export class Gameboard {
       x < 0 ||
       x > 10 ||
       y < 0 ||
-      y > 10
+      y > 10 ||
+      this.playerMissedShots.some(
+        (coordinates) => coordinates[0] === x && coordinates[1] === y,
+      ) ||
+      this.playerHitShots.some(
+        (coordinates) => coordinates[0] === x && coordinates[1] === y,
+      )
     ) {
       return null;
     }
+
+    for (let i = 0; i < this.placedPlayerShips.length; i++) {
+      for (let z = 0; z < this.placedPlayerShips[i].coordinates.length; z++) {
+        if (
+          this.placedPlayerShips[i].coordinates[z][0] === x &&
+          this.placedPlayerShips[i].coordinates[z][1] === y
+        ) {
+          this.placedPlayerShips[i].hit();
+          this.playerHitShots.push([x, y]);
+          return;
+        }
+      }
+    }
+
+    this.playerMissedShots.push([x, y]);
   }
 }

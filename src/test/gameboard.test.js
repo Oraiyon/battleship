@@ -131,4 +131,37 @@ describe("Tests for Gameboard properties", () => {
     expect(gameBoard.attack(11, 1)).toBeNull();
     expect(gameBoard.attack(1, 0)).toBeNull();
   });
+
+  test("Checks that when attack() HITS a ship, that ship's hit count increases & playerHitShots records hit coordinates", () => {
+    gameBoard.placePlayerShip("Destroyer", 1, 1);
+    gameBoard.placePlayerShip("PatrolBoat", 10, 3);
+    gameBoard.placePlayerShip("Carrier", 1, 10);
+    gameBoard.placePlayerShip("Battleship", 3, 8);
+    gameBoard.placePlayerShip("Submarine", 9, 6);
+    gameBoard.attack(1, 1);
+    expect(gameBoard.placedPlayerShips[0].hits).toBe(1);
+    expect(gameBoard.playerHitShots[0]).toEqual([1, 1]);
+  });
+
+  test("Checks that when attack() MISSES a ship, playerMissedShots records missed coordinates", () => {
+    gameBoard.placePlayerShip("Destroyer", 1, 1);
+    gameBoard.placePlayerShip("PatrolBoat", 10, 3);
+    gameBoard.placePlayerShip("Carrier", 1, 10);
+    gameBoard.placePlayerShip("Battleship", 3, 8);
+    gameBoard.placePlayerShip("Submarine", 9, 6);
+    gameBoard.attack(10, 10);
+    expect(gameBoard.playerMissedShots[0]).toEqual([10, 10]);
+  });
+
+  test("Checks that attack() DOES NOT trigger on used coordinates", () => {
+    gameBoard.placePlayerShip("Destroyer", 1, 1);
+    gameBoard.placePlayerShip("PatrolBoat", 10, 3);
+    gameBoard.placePlayerShip("Carrier", 1, 10);
+    gameBoard.placePlayerShip("Battleship", 3, 8);
+    gameBoard.placePlayerShip("Submarine", 9, 6);
+    gameBoard.attack(10, 10);
+    expect(gameBoard.attack(10, 10)).toBeNull();
+    gameBoard.attack(1, 1);
+    expect(gameBoard.attack(1, 1)).toBeNull();
+  });
 });
