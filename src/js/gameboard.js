@@ -145,6 +145,8 @@ export class Gameboard {
       ship.coordinates.forEach((coord) => {
         this.board[coord[1] - 1][coord[0] - 1] = ship.name;
       });
+    } else {
+      return null;
     }
   }
 

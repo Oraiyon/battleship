@@ -26,6 +26,11 @@ describe("Tests for Gameboard properties", () => {
     expect(gameBoard.board[2 - 1][5 - 1]).toBe("Destroyer");
   });
 
+  test("Checks if player ships can ONLY be placed within bounds", () => {
+    expect(gameBoard.placePlayerShip("Destroyer", 11, 1)).toBeNull();
+    expect(gameBoard.placePlayerShip("Destroyer", 1, 11)).toBeNull();
+  });
+
   test("Checks if player's horizontal ship's x coordinates DO NOT go past 10", () => {
     gameBoard.placePlayerShip("Destroyer", 10, 3);
     expect(gameBoard.placedPlayerShips[0].coordinates[0]).toEqual([8, 3]);
