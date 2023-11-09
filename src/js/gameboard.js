@@ -8,6 +8,7 @@ export class Gameboard {
     this.placedPlayerShips = [];
     this.playerHitShots = [];
     this.playerMissedShots = [];
+    this.playerSunkenShips = [];
   }
 
   createGameboard() {
@@ -171,6 +172,9 @@ export class Gameboard {
           this.placedPlayerShips[i].coordinates[z][1] === y
         ) {
           this.placedPlayerShips[i].hit();
+          if (this.placedPlayerShips[i].sunk === true) {
+            this.playerSunkenShips.push(this.placedPlayerShips[i]);
+          }
           this.playerHitShots.push([x, y]);
           return;
         }
