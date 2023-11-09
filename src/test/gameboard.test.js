@@ -164,4 +164,16 @@ describe("Tests for Gameboard properties", () => {
     gameBoard.attack(1, 1);
     expect(gameBoard.attack(1, 1)).toBeNull();
   });
+
+  test("Checks if ships can be SUNK when hits === length", () => {
+    gameBoard.placePlayerShip("Destroyer", 1, 1);
+    gameBoard.placePlayerShip("PatrolBoat", 10, 3);
+    gameBoard.placePlayerShip("Carrier", 1, 10);
+    gameBoard.placePlayerShip("Battleship", 3, 8);
+    gameBoard.placePlayerShip("Submarine", 9, 6);
+    gameBoard.attack(1, 1);
+    gameBoard.attack(2, 1);
+    gameBoard.attack(3, 1);
+    expect(gameBoard.placedPlayerShips[0].sunk).toBeTruthy();
+  });
 });
