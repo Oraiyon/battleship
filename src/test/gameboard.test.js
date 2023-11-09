@@ -117,4 +117,13 @@ describe("Tests for Gameboard properties", () => {
     gameBoard.placePlayerShip("Battleship", 1, 1);
     expect(gameBoard.placedPlayerShips[1].coordinates[0]).toEqual([1, 1]);
   });
+
+  test("Checks that attack() does not trigger when NOT all ships have been placed", () => {
+    expect(gameBoard.attack(1, 1)).toBeNull();
+  });
+
+  test("Checks that attack() ONLY triggers with valid coordinates", () => {
+    expect(gameBoard.attack(11, 1)).toBeNull();
+    expect(gameBoard.attack(1, 0)).toBeNull();
+  });
 });

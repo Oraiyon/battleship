@@ -147,4 +147,16 @@ export class Gameboard {
       });
     }
   }
+
+  attack(x, y) {
+    if (
+      this.placedPlayerShips.length !== 5 ||
+      x < 0 ||
+      x > 10 ||
+      y < 0 ||
+      y > 10
+    ) {
+      return null;
+    }
+  }
 }
