@@ -3,7 +3,7 @@ import { Ship } from "./ship";
 export class Gameboard {
   constructor() {
     this.board = [];
-    this.playerShips = [];
+    this.ships = [];
     this.placedShips = [];
     this.hitShots = [];
     this.missedShots = [];
@@ -20,31 +20,25 @@ export class Gameboard {
   }
 
   createShips() {
-    if (this.playerShips.length === 0) {
+    if (this.ships.length === 0) {
       const carrier = new Ship("Carrier", 5);
       const battleship = new Ship("Battleship", 4);
       const destroyer = new Ship("Destroyer", 3);
       const submarine = new Ship("Submarine", 3);
       const patrolBoat = new Ship("PatrolBoat", 2);
-      this.playerShips.push(
-        carrier,
-        battleship,
-        destroyer,
-        submarine,
-        patrolBoat,
-      );
+      this.ships.push(carrier, battleship, destroyer, submarine, patrolBoat);
     }
   }
 
   realign(shipName) {
-    const ship = this.playerShips.find((ship) => ship.name === shipName);
+    const ship = this.ships.find((ship) => ship.name === shipName);
     ship.alignment === "Horizontal"
       ? (ship.alignment = "Vertical")
       : (ship.alignment = "Horizontal");
   }
 
-  placePlayerShip(shipName, x, y) {
-    const ship = this.playerShips.find((ship) => ship.name === shipName);
+  placeShip(shipName, x, y) {
+    const ship = this.ships.find((ship) => ship.name === shipName);
     const mid = Math.floor(ship.length / 2);
 
     if (this.placedShips.find((ship) => ship.name === shipName)) {
@@ -167,7 +161,6 @@ export class Gameboard {
             this.sunkenShips.push(this.placedShips[i]);
           }
           this.hitShots.push([x, y]);
-          this.checkWinner();
           return;
         }
       }
@@ -175,14 +168,8 @@ export class Gameboard {
 
     this.missedShots.push([x, y]);
   }
-
-  // Refactor using this.winner === false to true?
-  checkWinner() {
-    if (this.sunkenShips.length === 5) {
-      return true;
-    }
-  }
 }
 
 // Games will be played with 2 boards
 // Player will access enemy board to attack
+// checkWinner() will be in gameModule.js
