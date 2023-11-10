@@ -1,4 +1,4 @@
-import { Player } from "../js/player";
+import { Player, Computer } from "../js/player";
 
 describe("Tests for Player properties", () => {
   let playerOne = null;
@@ -35,5 +35,18 @@ describe("Tests for Player properties", () => {
     computer.placeShip("PatrolBoat", 1, 5);
     playerOne.attack(computer, 1, 1);
     expect(computer.board.hitShots[0]).toEqual([1, 1]);
+  });
+});
+
+describe("Tests for Computer properties", () => {
+  let computer = null;
+  beforeEach(() => {
+    computer = new Computer("Computer");
+    computer.createGameboard();
+  });
+
+  test("Checks if computer can randomly place ships on the board", () => {
+    computer.placeShipsRandomly();
+    expect(computer.board.placedShips).toHaveLength(5);
   });
 });
