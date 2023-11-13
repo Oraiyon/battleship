@@ -24,14 +24,15 @@ export class Player {
 }
 
 export class Computer extends Player {
-  // Does does not reset when hits used coordinates
+  // Allow vertical alignment
   placeShipsRandomly() {
-    let index = 0;
-    while (this.board.placedShips.length <= 5) {
+    while (this.board.placedShips.length !== 5) {
       const randomX = Math.floor(Math.random() * 10);
       const randomY = Math.floor(Math.random() * 10);
-      this.placeShip(this.board.ships[index].name, randomX, randomY);
-      index++;
+      const randomShipIndex = Math.floor(
+        Math.random() * this.board.ships.length,
+      );
+      this.placeShip(this.board.ships[randomShipIndex].name, randomX, randomY);
     }
   }
 }
