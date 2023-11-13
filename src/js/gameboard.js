@@ -88,9 +88,17 @@ export class Gameboard {
             (ship.coordinates[0][0] === this.placedShips[i].coordinates[z][0] &&
               ship.coordinates[0][1] ===
                 this.placedShips[i].coordinates[z][1]) ||
+            (ship.coordinates[mid - 1][0] ===
+              this.placedShips[i].coordinates[z][0] &&
+              ship.coordinates[mid - 1][1] ===
+                this.placedShips[i].coordinates[z][1]) ||
             (ship.coordinates[mid][0] ===
               this.placedShips[i].coordinates[z][0] &&
               ship.coordinates[mid][1] ===
+                this.placedShips[i].coordinates[z][1]) ||
+            (ship.coordinates[mid + 1][0] ===
+              this.placedShips[i].coordinates[z][0] &&
+              ship.coordinates[mid + 1][1] ===
                 this.placedShips[i].coordinates[z][1]) ||
             (ship.coordinates[ship.coordinates.length - 1][0] ===
               this.placedShips[i].coordinates[z][0] &&
@@ -124,7 +132,6 @@ export class Gameboard {
       }
 
       this.placedShips.push(ship);
-
       ship.coordinates.forEach((coord) => {
         this.board[coord[1] - 1][coord[0] - 1] = ship.name;
       });
