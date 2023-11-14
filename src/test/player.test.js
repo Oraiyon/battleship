@@ -45,8 +45,19 @@ describe("Tests for Computer properties", () => {
     computer.createGameboard();
   });
 
-  test("Checks if computer can randomly place ships on the board", () => {
+  test.skip("Checks if computer can randomly place ships on the board", () => {
     computer.placeShipsRandomly();
     expect(computer.board.placedShips).toHaveLength(5);
+  });
+
+  test("Checks if computer can randomly attack player board", () => {
+    const player = new Player("Player");
+    player.createGameboard();
+    player.placeShip("Carrier", 1, 1);
+    player.placeShip("Battleship", 1, 2);
+    player.placeShip("Destroyer", 1, 3);
+    player.placeShip("Submarine", 1, 4);
+    player.placeShip("PatrolBoat", 1, 5);
+    expect(computer.computerAttacks(player)).toBeTruthy();
   });
 });

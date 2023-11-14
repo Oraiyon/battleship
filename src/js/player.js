@@ -24,15 +24,36 @@ export class Player {
 }
 
 export class Computer extends Player {
+  // REDUCE RANDOMNESS
+  // CAUSING LONG WAIT TIMES
   // Allow vertical alignment
   placeShipsRandomly() {
-    while (this.board.placedShips.length !== 5) {
-      const randomX = Math.floor(Math.random() * 10);
-      const randomY = Math.floor(Math.random() * 10);
-      const randomShipIndex = Math.floor(
-        Math.random() * this.board.ships.length,
-      );
-      this.placeShip(this.board.ships[randomShipIndex].name, randomX, randomY);
+    for (let i = 0; i < this.board.ships.length; i++) {
+      while (i === this.board.placedShips.length) {
+        const randomShip = this.board.ships[i].name;
+        const randomX = Math.floor(Math.random() * 10) + 1;
+        const randomY = Math.floor(Math.random() * 10) + 1;
+        this.placeShip(randomShip, randomX, randomY);
+      }
     }
+  }
+
+  computerAttacks(enemy) {
+    const randomX = Math.floor(Math.random() * 10) + 1;
+    const randomY = Math.floor(Math.random() * 10) + 1;
+    if (
+      enemy.board.hitShots.some(
+        (coordinates) =>
+          coordinates[0] === randomX && coordinates[1] === randomY,
+      ) ||
+      enemy.board.missedShots.some(
+        (coordinates) =>
+          coordinates[0] === randomX && coordinates[1] === randomY,
+      )
+    ) {
+      this.computerAttacks(enemy);
+    }
+    this.attack(enemy, randomX, randomY);
+    return true;
   }
 }
