@@ -5,6 +5,7 @@ export class Gameboard {
     this.board = [];
     this.ships = [];
     this.placedShips = [];
+    this.placedCoordinates = [];
     this.hitShots = [];
     this.missedShots = [];
     this.sunkenShips = [];
@@ -82,32 +83,52 @@ export class Gameboard {
         }
       }
 
-      for (let i = 0; i < this.placedShips.length; i++) {
-        for (let z = 0; z < this.placedShips[i].coordinates.length; z++) {
-          if (
-            (ship.coordinates[0][0] === this.placedShips[i].coordinates[z][0] &&
-              ship.coordinates[0][1] ===
-                this.placedShips[i].coordinates[z][1]) ||
-            (ship.coordinates[mid - 1][0] ===
-              this.placedShips[i].coordinates[z][0] &&
-              ship.coordinates[mid - 1][1] ===
-                this.placedShips[i].coordinates[z][1]) ||
-            (ship.coordinates[mid][0] ===
-              this.placedShips[i].coordinates[z][0] &&
-              ship.coordinates[mid][1] ===
-                this.placedShips[i].coordinates[z][1]) ||
-            (ship.coordinates[mid + 1][0] ===
-              this.placedShips[i].coordinates[z][0] &&
-              ship.coordinates[mid + 1][1] ===
-                this.placedShips[i].coordinates[z][1]) ||
-            (ship.coordinates[ship.coordinates.length - 1][0] ===
-              this.placedShips[i].coordinates[z][0] &&
-              ship.coordinates[ship.coordinates.length - 1][1] ===
-                this.placedShips[i].coordinates[z][1])
-          ) {
-            return null;
-          }
-        }
+      // for (let i = 0; i < this.placedShips.length; i++) {
+      //   for (let z = 0; z < this.placedShips[i].coordinates.length; z++) {
+      //     if (
+      //       (ship.coordinates[0][0] === this.placedShips[i].coordinates[z][0] &&
+      //         ship.coordinates[0][1] ===
+      //           this.placedShips[i].coordinates[z][1]) ||
+      //       (ship.coordinates[mid - 1][0] ===
+      //         this.placedShips[i].coordinates[z][0] &&
+      //         ship.coordinates[mid - 1][1] ===
+      //           this.placedShips[i].coordinates[z][1]) ||
+      //       (ship.coordinates[mid][0] ===
+      //         this.placedShips[i].coordinates[z][0] &&
+      //         ship.coordinates[mid][1] ===
+      //           this.placedShips[i].coordinates[z][1]) ||
+      //       (ship.coordinates[mid + 1][0] ===
+      //         this.placedShips[i].coordinates[z][0] &&
+      //         ship.coordinates[mid + 1][1] ===
+      //           this.placedShips[i].coordinates[z][1]) ||
+      //       (ship.coordinates[ship.coordinates.length - 1][0] ===
+      //         this.placedShips[i].coordinates[z][0] &&
+      //         ship.coordinates[ship.coordinates.length - 1][1] ===
+      //           this.placedShips[i].coordinates[z][1])
+      //     ) {
+      //       return null;
+      //     }
+      //   }
+      // }
+
+      if (
+        this.placedCoordinates.some(
+          (coordinates) =>
+            (coordinates[0] === ship.coordinates[0][0] &&
+              coordinates[1] === ship.coordinates[0][1]) ||
+            (coordinates[0] === ship.coordinates[mid - 1][0] &&
+              coordinates[1] === ship.coordinates[mid - 1][1]) ||
+            (coordinates[0] === ship.coordinates[mid][0] &&
+              coordinates[1] === ship.coordinates[mid][1]) ||
+            (coordinates[0] === ship.coordinates[mid + 1][0] &&
+              coordinates[1] === ship.coordinates[mid + 1][1]) ||
+            (coordinates[0] ===
+              ship.coordinates[ship.coordinates.length - 1][0] &&
+              coordinates[1] ===
+                ship.coordinates[ship.coordinates.length - 1][1]),
+        )
+      ) {
+        return null;
       }
 
       if (
@@ -132,6 +153,7 @@ export class Gameboard {
       }
 
       this.placedShips.push(ship);
+      this.placedCoordinates.push(...ship.coordinates);
       ship.coordinates.forEach((coord) => {
         this.board[coord[1] - 1][coord[0] - 1] = ship.name;
       });
