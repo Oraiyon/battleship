@@ -30,6 +30,6 @@
     background-color: blue;
 }
 
-.cell:hover {
+.computerBoard .cell:hover {
     background-color: red;
 }
