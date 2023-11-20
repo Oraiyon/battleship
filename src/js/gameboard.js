@@ -162,7 +162,7 @@ export class Gameboard {
     }
   }
 
-  attack(x, y) {
+  attack(x, y, name) {
     if (
       this.placedShips.length !== 5 ||
       x < 0 ||
@@ -189,13 +189,31 @@ export class Gameboard {
           if (this.placedShips[i].sunk === true) {
             this.sunkenShips.push(this.placedShips[i]);
           }
+          // Substitute
+          console.log(`${name} Hits ${[x, y]}`);
           this.hitShots.push([x, y]);
+          if (this.sunkenShips.length > 0) {
+            this.alertSunkenShip(x, y);
+          }
           return;
         }
       }
     }
-
+    // Substitute
+    console.log(`${name} Misses ${[x, y]}`);
     this.missedShots.push([x, y]);
+  }
+
+  alertSunkenShip(x, y) {
+    if (
+      this.sunkenShips[this.sunkenShips.length - 1].coordinates.some(
+        (coordinates) => coordinates[0] === x && coordinates[1] === y,
+      )
+    ) {
+      console.log(
+        `${this.sunkenShips[this.sunkenShips.length - 1].name} HAS BEEN SUNK`,
+      );
+    }
   }
 }
 
