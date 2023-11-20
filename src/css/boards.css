@@ -1,0 +1,35 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+}
+
+.playerBoard, .computerBoard {
+    width: 500px;
+    height: 500px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.boardRow {
+    width: 100%;
+    height: 10%;
+    display: flex;
+}
+
+.cell {
+    width: 10%;
+    height: 100%;
+    border: 1px solid black;
+    background-color: blue;
+}
+
+.cell:hover {
+    background-color: red;
+}
