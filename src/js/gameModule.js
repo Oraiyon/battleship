@@ -1,13 +1,13 @@
 import { Player, Computer } from "./player";
 
 // will be used to place player ships
-const createPlayerBoard = (user) => {
-  const userBoard = document.querySelector(`.playerBoard`);
+const createPlayerBoard = (player) => {
+  const playerBoard = document.querySelector(`.playerBoard`);
 
-  user.board.board.forEach((row) => {
+  player.board.board.forEach((row) => {
     const boardRow = document.createElement("div");
     boardRow.classList.add("boardRow");
-    userBoard.appendChild(boardRow);
+    playerBoard.appendChild(boardRow);
 
     for (let i = 0; i < row.length; i++) {
       const cell = document.createElement("div");
@@ -18,22 +18,27 @@ const createPlayerBoard = (user) => {
 };
 
 // will be used to attack computer ships
-const createComputerBoard = (user, player) => {
-  const userBoard = document.querySelector(`.computerBoard`);
+const createComputerBoard = (computer, player) => {
+  const computerBoard = document.querySelector(`.computerBoard`);
 
-  user.board.board.forEach((row, index) => {
+  computer.board.board.forEach((row, index) => {
     const boardRow = document.createElement("div");
     boardRow.classList.add("boardRow");
-    userBoard.appendChild(boardRow);
+    computerBoard.appendChild(boardRow);
 
     for (let i = 0; i < row.length; i++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       boardRow.appendChild(cell);
-      cell.addEventListener("click", () => {
-        player.attack(user, i + 1, index + 1);
-      });
+      takeTurns(cell, player, computer, i, index);
     }
+  });
+};
+
+const takeTurns = (cell, player, computer, i, index) => {
+  cell.addEventListener("click", () => {
+    player.attack(computer, i + 1, index + 1);
+    computer.computerAttacks(player);
   });
 };
 
@@ -61,11 +66,4 @@ export const createGame = () => {
 
   console.log(player.board);
   console.log(player.board.board);
-
-  // while (player.board.sunkenShips.length !== 5 || computer.board.sunkenShips.length !== 5) {
-  //   const x = parseInt(prompt("Choose a X"));
-  //   const y = parseInt(prompt("Choose a Y"));
-  //   player.attack(computer, x, y);
-  //   computer.computerAttacks(player);
-  // }
 };
