@@ -1,3 +1,4 @@
+import { Computer } from "./player";
 import { Ship } from "./ship";
 
 export class Gameboard {
@@ -83,34 +84,6 @@ export class Gameboard {
         }
       }
 
-      // for (let i = 0; i < this.placedShips.length; i++) {
-      //   for (let z = 0; z < this.placedShips[i].coordinates.length; z++) {
-      //     if (
-      //       (ship.coordinates[0][0] === this.placedShips[i].coordinates[z][0] &&
-      //         ship.coordinates[0][1] ===
-      //           this.placedShips[i].coordinates[z][1]) ||
-      //       (ship.coordinates[mid - 1][0] ===
-      //         this.placedShips[i].coordinates[z][0] &&
-      //         ship.coordinates[mid - 1][1] ===
-      //           this.placedShips[i].coordinates[z][1]) ||
-      //       (ship.coordinates[mid][0] ===
-      //         this.placedShips[i].coordinates[z][0] &&
-      //         ship.coordinates[mid][1] ===
-      //           this.placedShips[i].coordinates[z][1]) ||
-      //       (ship.coordinates[mid + 1][0] ===
-      //         this.placedShips[i].coordinates[z][0] &&
-      //         ship.coordinates[mid + 1][1] ===
-      //           this.placedShips[i].coordinates[z][1]) ||
-      //       (ship.coordinates[ship.coordinates.length - 1][0] ===
-      //         this.placedShips[i].coordinates[z][0] &&
-      //         ship.coordinates[ship.coordinates.length - 1][1] ===
-      //           this.placedShips[i].coordinates[z][1])
-      //     ) {
-      //       return null;
-      //     }
-      //   }
-      // }
-
       if (
         this.placedCoordinates.some(
           (coordinates) =>
@@ -163,6 +136,9 @@ export class Gameboard {
   }
 
   attack(x, y, name) {
+    const playerFeed = document.querySelector(".playerFeed");
+    const computerFeed = document.querySelector(".computerFeed");
+
     if (
       this.placedShips.length !== 5 ||
       x < 0 ||
@@ -189,30 +165,42 @@ export class Gameboard {
           if (this.placedShips[i].sunk === true) {
             this.sunkenShips.push(this.placedShips[i]);
           }
-          // Substitute
-          console.log(`${name} Hits ${[x, y]}`);
+          if (name === "Player") {
+            playerFeed.innerText = `${name} Hits ${[x, y]}`;
+          } else {
+            computerFeed.innerText = `${name} Hits ${[x, y]}`;
+          }
           this.hitShots.push([x, y]);
           if (this.sunkenShips.length > 0) {
-            this.alertSunkenShip(x, y);
+            this.alertSunkenShip(x, y, name, playerFeed, computerFeed);
           }
           return;
         }
       }
     }
-    // Substitute
-    console.log(`${name} Misses ${[x, y]}`);
+    if (name === "Player") {
+      playerFeed.innerText = `${name} Misses ${[x, y]}`;
+    } else {
+      computerFeed.innerText = `${name} Misses ${[x, y]}`;
+    }
     this.missedShots.push([x, y]);
   }
 
-  alertSunkenShip(x, y) {
+  alertSunkenShip(x, y, name, playerFeed, computerFeed) {
     if (
       this.sunkenShips[this.sunkenShips.length - 1].coordinates.some(
         (coordinates) => coordinates[0] === x && coordinates[1] === y,
       )
     ) {
-      console.log(
-        `${this.sunkenShips[this.sunkenShips.length - 1].name} HAS BEEN SUNK`,
-      );
+      if (name === "Player") {
+        playerFeed.innerText = `${name} SINKS Computer's ${
+          this.sunkenShips[this.sunkenShips.length - 1].name
+        }`;
+      } else {
+        computerFeed.innerText = `${name} SINKS Player's ${
+          this.sunkenShips[this.sunkenShips.length - 1].name
+        }`;
+      }
     }
   }
 }
