@@ -18,8 +18,25 @@ export class Player {
     this.board.placeShip(shipName, x, y);
   }
 
-  attack(enemy, x, y) {
-    enemy.board.attack(x, y);
+  attack(enemy, x, y, name = this.name) {
+    enemy.board.attack(x, y, name);
+  }
+
+  // will be used to place player ships
+  createPlayerBoard() {
+    const playerBoard = document.querySelector(`.playerBoard`);
+
+    this.board.board.forEach((row) => {
+      const boardRow = document.createElement("div");
+      boardRow.classList.add("boardRow");
+      playerBoard.appendChild(boardRow);
+
+      for (let i = 0; i < row.length; i++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        boardRow.appendChild(cell);
+      }
+    });
   }
 }
 
@@ -55,5 +72,30 @@ export class Computer extends Player {
     }
     this.attack(enemy, randomX, randomY);
     return true;
+  }
+
+  // will be used to attack computer ships
+  createComputerBoard(computer, player) {
+    const computerBoard = document.querySelector(`.computerBoard`);
+
+    this.board.board.forEach((row, index) => {
+      const boardRow = document.createElement("div");
+      boardRow.classList.add("boardRow");
+      computerBoard.appendChild(boardRow);
+
+      for (let i = 0; i < row.length; i++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        boardRow.appendChild(cell);
+        this.takeTurns(cell, player, computer, i, index);
+      }
+    });
+  }
+
+  takeTurns(cell, player, computer, i, index) {
+    cell.addEventListener("click", () => {
+      player.attack(computer, i + 1, index + 1);
+      computer.computerAttacks(player);
+    });
   }
 }

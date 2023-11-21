@@ -1,47 +1,5 @@
 import { Player, Computer } from "./player";
 
-// will be used to place player ships
-const createPlayerBoard = (player) => {
-  const playerBoard = document.querySelector(`.playerBoard`);
-
-  player.board.board.forEach((row) => {
-    const boardRow = document.createElement("div");
-    boardRow.classList.add("boardRow");
-    playerBoard.appendChild(boardRow);
-
-    for (let i = 0; i < row.length; i++) {
-      const cell = document.createElement("div");
-      cell.classList.add("cell");
-      boardRow.appendChild(cell);
-    }
-  });
-};
-
-// will be used to attack computer ships
-const createComputerBoard = (computer, player) => {
-  const computerBoard = document.querySelector(`.computerBoard`);
-
-  computer.board.board.forEach((row, index) => {
-    const boardRow = document.createElement("div");
-    boardRow.classList.add("boardRow");
-    computerBoard.appendChild(boardRow);
-
-    for (let i = 0; i < row.length; i++) {
-      const cell = document.createElement("div");
-      cell.classList.add("cell");
-      boardRow.appendChild(cell);
-      takeTurns(cell, player, computer, i, index);
-    }
-  });
-};
-
-const takeTurns = (cell, player, computer, i, index) => {
-  cell.addEventListener("click", () => {
-    player.attack(computer, i + 1, index + 1);
-    computer.computerAttacks(player);
-  });
-};
-
 export const createGame = () => {
   const player = new Player("Player");
   const computer = new Computer("Computer");
@@ -49,8 +7,8 @@ export const createGame = () => {
   player.createGameboard();
   computer.createGameboard();
 
-  createPlayerBoard(player);
-  createComputerBoard(computer, player);
+  player.createPlayerBoard();
+  computer.createComputerBoard(computer, player);
 
   player.placeShip("Carrier", 1, 1);
   player.placeShip("Battleship", 1, 2);
