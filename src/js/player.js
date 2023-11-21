@@ -95,7 +95,19 @@ export class Computer extends Player {
   takeTurns(cell, player, computer, i, index) {
     cell.addEventListener("click", () => {
       player.attack(computer, i + 1, index + 1);
+      this.displayAttack(cell, i, index);
       computer.computerAttacks(player);
     });
+  }
+
+  displayAttack(cell, i, index) {
+    if (
+      this.board.missedShots[this.board.missedShots.length - 1][0] === i + 1 &&
+      this.board.missedShots[this.board.missedShots.length - 1][1] === index + 1
+    ) {
+      cell.setAttribute("style", "background-color: gray;");
+    } else {
+      cell.setAttribute("style", "background-color: green;");
+    }
   }
 }
