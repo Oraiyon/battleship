@@ -100,14 +100,13 @@ export class Computer extends Player {
     });
   }
 
-  // Cell color does not change when 1st attack is hit
   displayAttack(cell, i, index) {
+    cell.setAttribute("style", "background-color: gray;");
+    // Stops causing errors when hitShots.length === 0
+    if (this.board.hitShots.length === 0) {
+      return;
+    }
     if (
-      this.board.missedShots[this.board.missedShots.length - 1][0] === i + 1 &&
-      this.board.missedShots[this.board.missedShots.length - 1][1] === index + 1
-    ) {
-      cell.setAttribute("style", "background-color: gray;");
-    } else if (
       this.board.hitShots[this.board.hitShots.length - 1][0] === i + 1 &&
       this.board.hitShots[this.board.hitShots.length - 1][1] === index + 1
     ) {
