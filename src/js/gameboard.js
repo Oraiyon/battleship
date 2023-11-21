@@ -1,4 +1,3 @@
-import { Computer } from "./player";
 import { Ship } from "./ship";
 
 export class Gameboard {
@@ -165,12 +164,14 @@ export class Gameboard {
           if (this.placedShips[i].sunk === true) {
             this.sunkenShips.push(this.placedShips[i]);
           }
+          // COMMENT OUT DOM MANIPULATION BEFORE TESTING
           if (name === "Player") {
             playerFeed.innerText = `${name} Hits ${[x, y]}`;
           } else {
             computerFeed.innerText = `${name} Hits ${[x, y]}`;
           }
           this.hitShots.push([x, y]);
+          // COMMENT OUT DOM MANIPULATION BEFORE TESTING
           if (this.sunkenShips.length > 0) {
             this.alertSunkenShip(x, y, name, playerFeed, computerFeed);
           }
@@ -178,12 +179,14 @@ export class Gameboard {
         }
       }
     }
+    // COMMENT OUT DOM MANIPULATION BEFORE TESTING
     if (name === "Player") {
       playerFeed.innerText = `${name} Misses ${[x, y]}`;
     } else {
       computerFeed.innerText = `${name} Misses ${[x, y]}`;
     }
     this.missedShots.push([x, y]);
+    return null;
   }
 
   alertSunkenShip(x, y, name, playerFeed, computerFeed) {
