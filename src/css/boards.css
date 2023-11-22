@@ -4,9 +4,16 @@
     box-sizing: border-box;
 }
 
+h1 {
+    text-align: center;
+}
+
 .container {
     display: flex;
     gap: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .playerBoard, .computerBoard {
@@ -32,4 +39,10 @@
 
 .computerBoard .cell:hover {
     background-color: red;
+}
+
+.killFeed {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
