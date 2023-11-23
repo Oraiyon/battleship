@@ -23,6 +23,8 @@ export class Player {
   }
 
   // will be used to place player ships
+  // MIGHT BE REPLACED BY createComputerBoard();
+  // NOT USED BY COMPUTER CHILD, SO IT VIOLATES SOLID PRINCIPLES
   createPlayerBoard() {
     const playerBoard = document.querySelector(`.playerBoard`);
 
@@ -87,16 +89,18 @@ export class Computer extends Player {
         const cell = document.createElement("div");
         cell.classList.add("cell");
         boardRow.appendChild(cell);
-        this.takeTurns(cell, player, computer, i, index);
+        this.takeTurns(cell, player, computer, i, index, computerBoard);
       }
     });
   }
 
-  takeTurns(cell, player, computer, i, index) {
+  takeTurns(cell, player, computer, i, index, computerBoard) {
     cell.addEventListener("click", () => {
+      const currentLength = this.board.sunkenShips.length;
       player.attack(computer, i + 1, index + 1);
       computer.computerAttacks(player);
       this.displayAttack(cell, i, index);
+      this.displaySunkenShips(computerBoard, currentLength);
     });
   }
 
@@ -111,6 +115,18 @@ export class Computer extends Player {
       this.board.hitShots[this.board.hitShots.length - 1][1] === index + 1
     ) {
       cell.setAttribute("style", "background-color: green;");
+    }
+  }
+
+  displaySunkenShips(computerBoard, currentLength) {
+    if (currentLength < this.board.sunkenShips.length) {
+      const sunkens = document.createElement("div");
+      sunkens.classList.add("sunkens");
+      computerBoard.appendChild(sunkens);
+
+      this.board.sunkenShips.forEach((ship) => {
+        sunkens.innerText = ship.name;
+      });
     }
   }
 }
